@@ -1,4 +1,4 @@
-//Mongoose Es una herramienta que nos permite crear modelos para podes almacenar 
+//Mongoose Es una herramienta que nos permite crear modelos para podes almacenar
 //nuestra información de una manera ordenada y estructurada
 
 const { Schema, model } = require("mongoose");
@@ -34,6 +34,15 @@ const UsuarioSchema = new Schema({
     type: Boolean,
     default: true,
   },
-}); 
+});
 
-module.exports = model("Usuario", UsuarioSchema)
+//Para no mostrar password ni __v
+UsuarioSchema.methods.toJSON = function () {
+  const { password, __v, _id, ...usuario } = this.toObject();
+
+  usuario.uid = _id;
+
+  return usuario;
+};
+
+module.exports = model("Usuario", UsuarioSchema);

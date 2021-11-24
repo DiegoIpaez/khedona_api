@@ -6,11 +6,36 @@ const Usuario = require("../models/usuario");
 const bcrypt = require("bcryptjs");
 
 //Muestra los usuarios----------------------------------------
-const usuariosGet = (req = request, res = response) => {
+const usuariosGet = async (req = request, res = response) => {
+  let { limite = 4 , desde = 0 } = req.query;
+
+  limite = Number(limite);
+  desde = Number(desde);
+
+  if (isNaN(limite)) {
+    limite = 4;
+  }
+  if (isNaN(desde)) {
+    desde = 0;
+  }
+
+  const usuarios = await Usuario.find({ estado: true })
+    .limit(limite)
+    .skip(desde);
+
+  const total = await Usuario.countDocuments({ estado: true });
+
   res.json({
-    msj: "GET usuarios",
+    usuarios,
+    total,
   });
 };
+
+//Muestra los usuarios id--------------------------------------
+const usuariosGetId = async (req = request, res = response) => {
+  const id = req.params.id;
+
+}
 
 //Crea Usuarios------------------------------------------------
 const usuariosPost = async (req = request, res = response) => {
@@ -70,6 +95,7 @@ const usuariosDel = async (req = request, res = response) => {
 
 module.exports = {
   usuariosGet,
+  usuariosGetId,
   usuariosPost,
   usuariosPut,
   usuariosDel,
