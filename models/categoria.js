@@ -16,6 +16,9 @@ const CategoriaSchema = new Schema({
     ref: "Usuario",
     required: true,
   },
+  img: {
+    type: String,
+  },
 });
 
 CategoriaSchema.methods.toJSON = function () {

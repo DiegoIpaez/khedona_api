@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 
 //Muestra los usuarios----------------------------------------
 const usuariosGet = async (req = request, res = response) => {
-  let { limite = 4 , desde = 0 } = req.query;
+  let { limite = 4, desde = 0 } = req.query;
 
   limite = Number(limite);
   desde = Number(desde);
@@ -33,9 +33,13 @@ const usuariosGet = async (req = request, res = response) => {
 
 //Muestra los usuarios id--------------------------------------
 const usuariosGetId = async (req = request, res = response) => {
-  const id = req.params.id;
+  const { id } = req.params;
+  const usuario = await Usuario.findById(id);
 
-}
+  res.json({
+    usuario,
+  });
+};
 
 //Crea Usuarios------------------------------------------------
 const usuariosPost = async (req = request, res = response) => {

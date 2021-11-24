@@ -22,6 +22,9 @@ const UsuarioSchema = new Schema({
     type: String,
     required: [true, "La contraseña es obligatoria"],
   },
+  direccion: {
+    type: String,
+  },
   img: {
     type: String,
   },
