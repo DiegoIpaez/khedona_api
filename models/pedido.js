@@ -26,6 +26,9 @@ const PedidoSchema = new Schema(
     total: {
       type: Number,
     },
+    costo: {
+      type: Number,
+    },
     nota: {
       type: String,
     },
