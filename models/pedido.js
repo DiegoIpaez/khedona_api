@@ -21,6 +21,10 @@ const PedidoSchema = new Schema(
           type: Number,
           required: true,
         },
+        subtotal: {
+					type: Number,
+					required: true,
+				},
       },
     ],
     total: {
