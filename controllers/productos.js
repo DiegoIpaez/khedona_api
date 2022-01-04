@@ -43,6 +43,22 @@ const obtenerProductoId = async (req = request, res = response) => {
   });
 };
 
+const obtenerProductosCateg = async (req = request, res = response) => {
+  const { id } = req.params;
+
+  const [total, productos] = await Promise.all([
+    Producto.countDocuments(Producto.find({ categoria: id, estado: true })),
+    Producto.find({ categoria: id, estado: true })
+      .populate("usuario", "nombre email")
+      .populate("categoria", "nombre"),
+  ]);
+
+  res.json({
+    Total: total,
+    productos,
+  });
+};
+
 const crearProducto = async (req = request, res = response) => {
   const { estado, usuario, ...body } = req.body;
 
@@ -107,6 +123,7 @@ const borrarProducto = async (req = request, res = response) => {
 module.exports = {
   obtenerProductos,
   obtenerProductoId,
+  obtenerProductosCateg,
   crearProducto,
   actualizarProducto,
   borrarProducto,

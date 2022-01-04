@@ -13,6 +13,7 @@ const { productoExiste, categoriaExiste } = require("../helpers/db-validators");
 const {
   obtenerProductos,
   obtenerProductoId,
+  obtenerProductosCateg,
   crearProducto,
   actualizarProducto,
   borrarProducto,
@@ -30,6 +31,12 @@ router.get(
     validarCampos,
   ],
   obtenerProductoId
+);
+
+router.get(
+  "/categ/:id",
+  check("id", "No es un ID valido").isMongoId(),
+  obtenerProductosCateg
 );
 
 router.post(
