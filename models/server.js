@@ -19,7 +19,8 @@ class Server {
     this.productosPath = "/api/productos";
     //ruta de pedidos
     this.pedidosPath = "/api/pedidos";
-
+    //ruta de pago
+    this.mercadoPath = "/api/checkout";
     //ruta de busquedas
     this.buscarPath = "/api/buscar";
 
@@ -56,7 +57,8 @@ class Server {
     this.app.use(this.categoriasPath, require("../routes/categorias"));
     this.app.use(this.productosPath, require("../routes/productos"));
     this.app.use(this.buscarPath, require("../routes/buscar"));
-    this.app.use(this.pedidosPath, require("../routes/pedidos"))
+    this.app.use(this.pedidosPath, require("../routes/pedidos"));
+    this.app.use(this.mercadoPath, require("../routes/mercadopago"));
   }
 
   listen() {
