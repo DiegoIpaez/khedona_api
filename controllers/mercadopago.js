@@ -1,31 +1,38 @@
 const { request, response } = require("express");
 const mercadopago = require("mercadopago");
 
-const postMercadoPago = async (req = request, res = response) => {
-  mercadopago.configure({
-    access_token:
-      "APP_USR-120464152929119-010921-296359fb8e02d17acc411b972f50c9e2-1053932968",
-  });
+mercadopago.configure({
+  access_token: process.env.ACCESS_TOKEN,
+});
 
+const postMercadoPago = async (req = request, res = response) => {
   // Crea un objeto de preferencia
+  const m = req.body;
+
   let preference = {
     items: [
       {
-        title: req.body.title,
-        unit_price: parseInt(req.body.unit_price),
-        quantity: parseInt(req.body.quantity),
+        unit_price: Number(m.unit_price),
+        quantity: Number(m.quantity),
+        title: String(m.title),
       },
     ],
+    back_urls: {
+      failure: "http://localhost:2020/",
+      pending: "http://localhost:2020/",
+      success: "http://localhost:2020/",
+    },
+    auto_return: "approved",
   };
 
-  mercadopago.preferences
-    .create(await preference)
+  await mercadopago.preferences
+    .create(preference)
     .then((response) => {
-      res.json(response.body);
-      
+      res.json(response.body.init_point);
+      console.log(mercadopago.preferences);
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch((error) => {
+      res.json({ mjs: error + "" });
     });
 };
 
